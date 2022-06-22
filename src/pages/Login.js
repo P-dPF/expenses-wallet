@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { getLoginInfo } from '../actions';
 
 class Login extends React.Component {
   state = {
@@ -25,8 +26,16 @@ class Login extends React.Component {
     });
   }
 
+  handleClick = () => {
+    const { history, dispatch } = this.props;
+    const { email } = this.state;
+    history.push('/carteira');
+    dispatch(getLoginInfo(email));
+  }
+
   render() {
-    const { disabled } = this.state;
+    const { /* email, */ disabled } = this.state;
+    // const { dispatch } = this.props;
     return (
       <>
         <div>Login</div>
@@ -41,16 +50,24 @@ class Login extends React.Component {
             type="password"
             name="password"
             data-testid="password-input"
-            // minLength={ 6 }
+            minLength={ 6 }
             onChange={ this.handleChange }
           />
-          <Link to="/carteira">
-            <button type="button" disabled={ disabled }>Entrar</button>
-          </Link>
+          <button
+            type="button"
+            disabled={ disabled }
+            onClick={ () => this.handleClick() }
+          >
+            Entrar
+          </button>
         </form>
       </>
     );
   }
 }
+
+Login.propTypes = {
+  dispatch: PropTypes.func,
+}.isRequired;
 
 export default connect()(Login);
