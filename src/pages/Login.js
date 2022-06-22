@@ -34,8 +34,7 @@ class Login extends React.Component {
   }
 
   render() {
-    const { /* email, */ disabled } = this.state;
-    // const { dispatch } = this.props;
+    const { disabled } = this.state;
     return (
       <>
         <div>Login</div>
@@ -70,4 +69,4 @@ Login.propTypes = {
   dispatch: PropTypes.func,
 }.isRequired;
 
-export default connect()(Login);
+export default connect(null, null)(Login);
