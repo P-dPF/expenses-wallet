@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 class Login extends React.Component {
   state = {
-    // email: '',
+    email: '',
     password: '',
     disabled: true,
   }
@@ -11,9 +11,13 @@ class Login extends React.Component {
   handleChange = ({ target }) => {
     const { name, value } = target;
     this.setState({ [name]: value }, () => {
-      const { password } = this.state;
+      const { email, password } = this.state;
       const MIN_PASSWORD_LENGTH = 6;
-      if (password.length >= MIN_PASSWORD_LENGTH) {
+      if (
+        password.length >= MIN_PASSWORD_LENGTH
+        && email.includes('@')
+        && email.includes('.com')
+      ) {
         return this.setState({ disabled: false });
       }
       return this.setState({ disabled: true });
@@ -30,7 +34,7 @@ class Login extends React.Component {
             type="email"
             name="email"
             data-testid="email-input"
-            // onChange={ this.handleChange }
+            onChange={ this.handleChange }
           />
           <input
             type="password"
