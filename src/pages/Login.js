@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 class Login extends React.Component {
   state = {
@@ -43,7 +44,9 @@ class Login extends React.Component {
             // minLength={ 6 }
             onChange={ this.handleChange }
           />
-          <button type="button" disabled={ disabled }>Entrar</button>
+          <Link to="/carteira">
+            <button type="button" disabled={ disabled }>Entrar</button>
+          </Link>
         </form>
       </>
     );
