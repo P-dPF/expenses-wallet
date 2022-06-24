@@ -10,7 +10,7 @@ import ExpensesTable from '../components/ExpensesTable';
 const INITIAL_STATE = {
   value: '',
   description: '',
-  currency: '',
+  currency: 'USD',
   method: '',
   tag: '',
   exchangeRates: {},
@@ -67,7 +67,7 @@ class Wallet extends React.Component {
     const {
       value,
       description,
-      // currency,
+      currency,
       method,
       tag,
       totalExpenses,
@@ -100,27 +100,14 @@ class Wallet extends React.Component {
             onChange={ this.handleChange }
             id="description-input"
           />
-          {/* <Select
+          <Select
             label="Moeda"
             name="currency"
             id="currency-input"
             onChange={ this.handleChange }
             value={ currency }
             options={ currencies }
-          /> */}
-          <label htmlFor="currency-input">
-            Moeda
-            <select
-              name="currency"
-              data-testid="currency-input"
-              id="currency-input"
-              onChange={ this.handleChange }
-            >
-              {currencies.map((curr) => (
-                <option value={ curr } key={ curr }>{curr}</option>
-              ))}
-            </select>
-          </label>
+          />
           <Select
             label="Forma de pagamento: "
             name="method"
