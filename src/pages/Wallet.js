@@ -5,6 +5,7 @@ import { fetchCurrencies, addExpense, fetchExchangeRates } from '../actions';
 import Input from '../components/Input';
 import Select from '../components/Select';
 import Button from '../components/Button';
+import ExpensesTable from '../components/ExpensesTable';
 
 const INITIAL_STATE = {
   value: '',
@@ -140,6 +141,9 @@ class Wallet extends React.Component {
             label="Adicionar despesa"
             onClick={ this.buildExpenseObj }
           />
+          <div>
+            <ExpensesTable />
+          </div>
         </main>
       </>
     );
