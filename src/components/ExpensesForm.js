@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { addExpense } from '../actions';
+import { addExpense, fetchExchangeRates } from '../actions';
 
 class ExpensesForm extends React.Component {
   state = {
@@ -10,19 +10,24 @@ class ExpensesForm extends React.Component {
     currency: '',
     method: '',
     tag: '',
+    exchangeRates: {},
   }
 
-  buildExpenseObj = () => {
-    const { value, description, currency, method, tag } = this.state;
+  buildExpenseObj = async () => {
     const { dispatch } = this.props;
-    const expenseObj = {
-      value,
-      description,
-      currency,
-      method,
-      tag,
-    };
-    dispatch(addExpense(expenseObj));
+    const APIresponse = await fetchExchangeRates()();
+    this.setState({ exchangeRates: APIresponse }, () => {
+      const { value, description, currency, method, tag, exchangeRates } = this.state;
+      const expenseObj = {
+        value,
+        description,
+        currency,
+        method,
+        tag,
+        exchangeRates,
+      };
+      dispatch(addExpense(expenseObj));
+    });
   }
 
   handleChange = ({ target }) => {
@@ -99,7 +104,10 @@ class ExpensesForm extends React.Component {
             Adicionar despesa
           </button>
         </form>
-        <p>Total de despesas</p>
+        <p>
+          Total de despesas:
+          <span data-testid="total-field">{0}</span>
+        </p>
       </>
     );
   }

@@ -17,6 +17,7 @@ export const addExpense = ({
   method,
   tag,
   description,
+  exchangeRates,
 }) => ({
   type: ADD_EXPENSE,
   payload: {
@@ -25,6 +26,7 @@ export const addExpense = ({
     method,
     tag,
     description,
+    exchangeRates,
   },
 });
 
@@ -33,3 +35,7 @@ export const fetchCurrencies = () => (dispatch) => fetch('https://economia.aweso
   .then((data) => Object.entries(data).map((currency) => (currency[0])).filter((coin) => (
     coin !== 'USDT')))
   .then((currencies) => dispatch(getCurrencies(currencies)));
+
+export const fetchExchangeRates = () => () => fetch('https://economia.awesomeapi.com.br/json/all')
+  .then((response) => response.json())
+  .then((data) => data);
