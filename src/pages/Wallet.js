@@ -11,8 +11,8 @@ const INITIAL_STATE = {
   value: '',
   description: '',
   currency: 'USD',
-  method: '',
-  tag: '',
+  method: 'Dinheiro',
+  tag: 'Alimentação',
   exchangeRates: {},
   convertedExpensesList: [],
   totalExpenses: 0,
@@ -33,7 +33,7 @@ class Wallet extends React.Component {
     }), () => {
       const { convertedExpensesList } = this.state;
       const sum = convertedExpensesList.reduce((acc, curr) => acc + curr).toFixed(2);
-      this.setState({ totalExpenses: sum, value: '' });
+      this.setState({ totalExpenses: sum, value: '', description: '' });
     });
   }
 
