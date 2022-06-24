@@ -10,9 +10,22 @@ const INITIAL_STATE = {
   method: '',
   tag: '',
   exchangeRates: {},
+  convertedExpensesList: [],
 };
 class ExpensesForm extends React.Component {
   state = INITIAL_STATE;
+
+  sumConvertedExpenses = (originalCurrency, ask) => {
+    const { value, exchangeRates } = this.state;
+    const convertedExpense = value * exchangeRates[originalCurrency][ask];
+    this.setState((prevState) => ({
+      convertedExpensesList: [...prevState.convertedExpensesList, convertedExpense],
+    }), () => {
+      const { convertedExpensesList } = this.state;
+      const sum = convertedExpensesList.reduce((acc, curr) => acc + curr);
+      this.setState({ totalExpenses: sum, value: '' });
+    });
+  }
 
   buildExpenseObj = async () => {
     const { dispatch } = this.props;
@@ -27,8 +40,8 @@ class ExpensesForm extends React.Component {
         tag,
         exchangeRates,
       };
+      this.sumConvertedExpenses(currency, 'ask');
       dispatch(addExpense(expenseObj));
-      this.setState(INITIAL_STATE);
     });
   }
 
@@ -38,85 +51,81 @@ class ExpensesForm extends React.Component {
   }
 
   render() {
+    const { currencies } = this.props;
     const {
       value,
       description,
+      totalExpenses,
     } = this.state;
-    const { currencies } = this.props;
     return (
-      <>
-        <form>
-          <label htmlFor="value-input">
-            Despesa
-            <input
-              type="number"
-              name="value"
-              data-testid="value-input"
-              onChange={ this.handleChange }
-              value={ value }
-            />
-          </label>
-          <label htmlFor="description-input">
-            Descrição
-            <input
-              type="text"
-              name="description"
-              data-testid="description-input"
-              onChange={ this.handleChange }
-              value={ description }
-            />
-          </label>
-          <label htmlFor="currency-input">
-            Moeda
-            <select
-              name="currency"
-              data-testid="currency-input"
-              id="currency-input"
-              onChange={ this.handleChange }
-            >
-              {currencies.map((currency) => (
-                <option value={ currency } key={ currency }>{currency}</option>
-              ))}
-            </select>
-          </label>
-          <label htmlFor="method-input">
-            Método de Pagamento
-            <select
-              name="method"
-              data-testid="method-input"
-              onChange={ this.handleChange }
-            >
-              <option value="Dinheiro">Dinheiro</option>
-              <option value="Cartão de crédito">Cartão de crédito</option>
-              <option value="Cartão de débito">Cartão de débito</option>
-            </select>
-          </label>
-          <label htmlFor="tag-input">
-            Categoria
-            <select
-              name="tag"
-              data-testid="tag-input"
-              onChange={ this.handleChange }
-            >
-              <option value="Alimentação">Alimentação</option>
-              <option value="Lazer">Lazer</option>
-              <option value="Trabalho">Trabalho</option>
-              <option value="Transporte">Transporte</option>
-              <option value="Saúde">Saúde</option>
-            </select>
-          </label>
-          <button
-            type="button"
-            onClick={ this.buildExpenseObj }
+      <form>
+        <label htmlFor="value-input">
+          Despesa
+          <input
+            type="number"
+            name="value"
+            data-testid="value-input"
+            onChange={ this.handleChange }
+            value={ value }
+          />
+        </label>
+        <label htmlFor="description-input">
+          Descrição
+          <input
+            type="text"
+            name="description"
+            data-testid="description-input"
+            onChange={ this.handleChange }
+            value={ description }
+          />
+        </label>
+        <label htmlFor="currency-input">
+          Moeda
+          <select
+            name="currency"
+            data-testid="currency-input"
+            id="currency-input"
+            onChange={ this.handleChange }
           >
-            Adicionar despesa
-          </button>
-        </form>
-        <p>
-          Total de despesas:
-          <span data-testid="total-field">{0}</span>
-        </p>
-      </>
+            {currencies.map((currency) => (
+              <option value={ currency } key={ currency }>{currency}</option>
+            ))}
+          </select>
+        </label>
+        <label htmlFor="method-input">
+          Método de Pagamento
+          <select
+            name="method"
+            data-testid="method-input"
+            onChange={ this.handleChange }
+          >
+            <option value="Dinheiro">Dinheiro</option>
+            <option value="Cartão de crédito">Cartão de crédito</option>
+            <option value="Cartão de débito">Cartão de débito</option>
+          </select>
+        </label>
+        <label htmlFor="tag-input">
+          Categoria
+          <select
+            name="tag"
+            data-testid="tag-input"
+            onChange={ this.handleChange }
+          >
+            <option value="Alimentação">Alimentação</option>
+            <option value="Lazer">Lazer</option>
+            <option value="Trabalho">Trabalho</option>
+            <option value="Transporte">Transporte</option>
+            <option value="Saúde">Saúde</option>
+          </select>
+        </label>
+        <button
+          type="button"
+          onClick={ this.buildExpenseObj }
+        >
+          Adicionar despesa
+        </button>
+        <p>{totalExpenses}</p>
+      </form>
     );
   }
 }
