@@ -3,15 +3,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addExpense, fetchExchangeRates } from '../actions';
 
+const INITIAL_STATE = {
+  value: '',
+  description: '',
+  currency: '',
+  method: '',
+  tag: '',
+  exchangeRates: {},
+};
 class ExpensesForm extends React.Component {
-  state = {
-    value: '',
-    description: '',
-    currency: '',
-    method: '',
-    tag: '',
-    exchangeRates: {},
-  }
+  state = INITIAL_STATE;
 
   buildExpenseObj = async () => {
     const { dispatch } = this.props;
@@ -27,6 +28,7 @@ class ExpensesForm extends React.Component {
         exchangeRates,
       };
       dispatch(addExpense(expenseObj));
+      this.setState(INITIAL_STATE);
     });
   }
 
@@ -36,6 +38,10 @@ class ExpensesForm extends React.Component {
   }
 
   render() {
+    const {
+      value,
+      description,
+    } = this.state;
     const { currencies } = this.props;
     return (
       <>
@@ -47,6 +53,7 @@ class ExpensesForm extends React.Component {
               name="value"
               data-testid="value-input"
               onChange={ this.handleChange }
+              value={ value }
             />
           </label>
           <label htmlFor="description-input">
@@ -56,6 +63,7 @@ class ExpensesForm extends React.Component {
               name="description"
               data-testid="description-input"
               onChange={ this.handleChange }
+              value={ description }
             />
           </label>
           <label htmlFor="currency-input">

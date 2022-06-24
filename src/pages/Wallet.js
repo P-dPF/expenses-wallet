@@ -22,6 +22,7 @@ class Wallet extends React.Component {
           <span data-testid="total-field">{0}</span>
           Câmbio atual:
           <span data-testid="header-currency-field">BRL</span>
+          <span data-testid="total-field">Total de despesas</span>
         </header>
         <main>
           <ExpensesForm />
