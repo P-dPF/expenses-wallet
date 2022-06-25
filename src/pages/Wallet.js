@@ -127,7 +127,6 @@ class Wallet extends React.Component {
           <Button
             label="Adicionar despesa"
             onClick={ this.buildExpenseObj }
-            id="add-btn"
           />
           <div>
             <ExpensesTable />

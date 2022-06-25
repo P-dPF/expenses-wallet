@@ -2,6 +2,7 @@
 export const LOGIN_INFO = 'LOGIN_INFO';
 export const GET_CURRENCIES = 'GET_CURRENCIES';
 export const ADD_EXPENSE = 'ADD_EXPENSE';
+export const DELETE_EXPENSE = 'DELETE_EXPENSE';
 
 export const getLoginInfo = (email) => ({ type: LOGIN_INFO, email });
 const getCurrencies = (currencies) => ({
@@ -28,6 +29,11 @@ export const addExpense = ({
     description,
     exchangeRates,
   },
+});
+
+export const deleteExpense = (id) => ({
+  type: DELETE_EXPENSE,
+  payload: id,
 });
 
 export const fetchCurrencies = () => (dispatch) => fetch('https://economia.awesomeapi.com.br/json/all')

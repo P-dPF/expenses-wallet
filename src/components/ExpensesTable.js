@@ -1,16 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Button from './Button';
+import { deleteExpense } from '../actions';
 
 class ExpensesTable extends React.Component {
   convertValue = (object, value, currency, exchangeRates) => (
     object[value] * object[exchangeRates][object[currency]].ask
   )
 
+  deleteExpense = ({ target }) => {
+    const { dispatch } = this.props;
+    const id = Number(target.id);
+    console.log(id);
+    // const { expensesList } = this.props;
+    // const deletedExpense = expensesList.find((expense) => (
+    //   Number(expense.id) === Number(target.id)));
+    dispatch(deleteExpense(id));
+  }
+
   render() {
     const { expensesList } = this.props;
-    console.log(expensesList);
+    // console.log(expensesList);
     return (
       <table>
         <thead>
@@ -52,12 +62,14 @@ class ExpensesTable extends React.Component {
               </td>
               <td>Real</td>
               <td>
-                <Button
-                  label="Excuir despesa"
-                  onClick={ () => {} }
-                  id="delete-btn"
-                />
-
+                <button
+                  type="button"
+                  onClick={ (event) => this.deleteExpense(event) }
+                  id={ expense.id }
+                  data-testid="delete-btn"
+                >
+                  Excluir despesa
+                </button>
               </td>
             </tr>
           ))}
