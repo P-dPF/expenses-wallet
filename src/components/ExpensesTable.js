@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Button from './Button';
 
 class ExpensesTable extends React.Component {
   convertValue = (object, value, currency, exchangeRates) => (
@@ -50,6 +51,14 @@ class ExpensesTable extends React.Component {
                 }
               </td>
               <td>Real</td>
+              <td>
+                <Button
+                  label="Excuir despesa"
+                  onClick={ () => {} }
+                  id="delete-btn"
+                />
+
+              </td>
             </tr>
           ))}
         </tbody>
