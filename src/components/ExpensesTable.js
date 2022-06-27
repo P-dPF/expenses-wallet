@@ -8,19 +8,16 @@ class ExpensesTable extends React.Component {
     object[value] * object[exchangeRates][object[currency]].ask
   )
 
-  deleteExpense = ({ target }) => {
-    const { dispatch } = this.props;
+  deleteExpense = async ({ target }) => {
+    const { dispatch, sum } = this.props;
     const id = Number(target.id);
     console.log(id);
-    // const { expensesList } = this.props;
-    // const deletedExpense = expensesList.find((expense) => (
-    //   Number(expense.id) === Number(target.id)));
-    dispatch(deleteExpense(id));
+    await dispatch(deleteExpense(id));
+    sum();
   }
 
   render() {
     const { expensesList } = this.props;
-    // console.log(expensesList);
     return (
       <table>
         <thead>

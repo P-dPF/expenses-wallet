@@ -14,7 +14,6 @@ const INITIAL_STATE = {
   method: 'Dinheiro',
   tag: 'Alimentação',
   exchangeRates: {},
-  convertedExpensesList: [],
   totalExpenses: 0,
 };
 class Wallet extends React.Component {
@@ -25,16 +24,17 @@ class Wallet extends React.Component {
     dispatch(fetchCurrencies());
   }
 
-  sumConvertedExpenses = (originalCurrency, ask) => {
-    const { value, exchangeRates } = this.state;
-    const convertedExpense = value * exchangeRates[originalCurrency][ask];
-    this.setState((prevState) => ({
-      convertedExpensesList: [...prevState.convertedExpensesList, convertedExpense],
-    }), () => {
-      const { convertedExpensesList } = this.state;
-      const sum = convertedExpensesList.reduce((acc, curr) => acc + curr).toFixed(2);
-      this.setState({ totalExpenses: sum, value: '', description: '' });
-    });
+  sum = () => {
+    const { expenses } = this.props;
+    if (expenses.length > 0) {
+      const convertedValues = expenses.map((expense) => (
+        Number(expense.value) * Number(expense.exchangeRates[expense.currency].ask)));
+      const convertedSum = convertedValues.reduce((acc, curr) => (acc + curr)).toFixed(2);
+      this.setState({ totalExpenses: convertedSum, value: '', description: '' });
+    }
+    if (expenses.length === 0) {
+      this.setState({ totalExpenses: 0 });
+    }
   }
 
   buildExpenseObj = async () => {
@@ -50,9 +50,9 @@ class Wallet extends React.Component {
         tag,
         exchangeRates,
       };
-      this.sumConvertedExpenses(currency, 'ask');
       dispatch(addExpense(expenseObj));
     });
+    this.sum();
   }
 
   handleChange = ({ target }) => {
@@ -129,7 +129,7 @@ class Wallet extends React.Component {
             onClick={ this.buildExpenseObj }
           />
           <div>
-            <ExpensesTable />
+            <ExpensesTable sum={ this.sum } />
           </div>
         </main>
       </>
@@ -138,6 +138,7 @@ class Wallet extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+  expenses: state.wallet.expenses,
   email: state.user.email,
   currencies: state.wallet.currencies,
 });
