@@ -2,10 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchCurrencies, addExpense, fetchExchangeRates } from '../actions';
-import Input from '../components/Input';
-import Select from '../components/Select';
-import Button from '../components/Button';
 import ExpensesTable from '../components/ExpensesTable';
+import Form from '../components/Form';
 
 const INITIAL_STATE = {
   value: '',
@@ -84,48 +82,16 @@ class Wallet extends React.Component {
           <span data-testid="total-field">{totalExpenses}</span>
         </header>
         <main>
-          <Input
-            label="Despesa: "
-            type="number"
-            name="value"
+          <Form
+            onChange={ this.handleChange }
             value={ value }
-            onChange={ this.handleChange }
-            id="value-input"
-          />
-          <Input
-            label="Descrição: "
-            type="text"
-            name="description"
-            value={ description }
-            onChange={ this.handleChange }
-            id="description-input"
-          />
-          <Select
-            label="Moeda"
-            name="currency"
-            id="currency-input"
-            onChange={ this.handleChange }
-            value={ currency }
-            options={ currencies }
-          />
-          <Select
-            label="Forma de pagamento: "
-            name="method"
-            id="method-input"
-            onChange={ this.handleChange }
-            value={ method }
-            options={ paymentMethods }
-          />
-          <Select
-            label="Categoria: "
-            name="tag"
-            id="tag-input"
-            onChange={ this.handleChange }
-            value={ tag }
-            options={ categories }
-          />
-          <Button
-            label="Adicionar despesa"
+            description={ description }
+            currency={ currency }
+            method={ method }
+            tag={ tag }
+            currencies={ currencies }
+            paymentMethods={ paymentMethods }
+            categories={ categories }
             onClick={ this.buildExpenseObj }
           />
           <div>

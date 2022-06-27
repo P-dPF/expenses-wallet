@@ -67,6 +67,14 @@ class ExpensesTable extends React.Component {
                 >
                   Excluir despesa
                 </button>
+                <button
+                  type="button"
+                  onClick={ () => {} }
+                  id={ expense.id }
+                  data-testid="edit-btn"
+                >
+                  Editar despesa
+                </button>
               </td>
             </tr>
           ))}
