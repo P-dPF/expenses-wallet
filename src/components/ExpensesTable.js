@@ -9,11 +9,10 @@ class ExpensesTable extends React.Component {
   )
 
   deleteExpense = async ({ target }) => {
-    const { dispatch, sum } = this.props;
+    const { dispatch } = this.props;
     const id = Number(target.id);
     console.log(id);
     await dispatch(deleteExpense(id));
-    sum();
   }
 
   render() {
@@ -67,14 +66,14 @@ class ExpensesTable extends React.Component {
                 >
                   Excluir despesa
                 </button>
-                <button
+                {/* <button
                   type="button"
                   onClick={ () => {} }
                   id={ expense.id }
                   data-testid="edit-btn"
                 >
                   Editar despesa
-                </button>
+                </button> */}
               </td>
             </tr>
           ))}

@@ -12,7 +12,6 @@ const INITIAL_STATE = {
   method: 'Dinheiro',
   tag: 'Alimentação',
   exchangeRates: {},
-  totalExpenses: 0,
 };
 class Wallet extends React.Component {
   state = INITIAL_STATE;
@@ -22,17 +21,17 @@ class Wallet extends React.Component {
     dispatch(fetchCurrencies());
   }
 
-  sum = () => {
+  totalSum = () => {
     const { expenses } = this.props;
     if (expenses.length > 0) {
       const convertedValues = expenses.map((expense) => (
         Number(expense.value) * Number(expense.exchangeRates[expense.currency].ask)));
-      const convertedSum = convertedValues.reduce((acc, curr) => (acc + curr)).toFixed(2);
-      this.setState({ totalExpenses: convertedSum, value: '', description: '' });
+      const convertedSum = convertedValues
+        .reduce((acc, curr) => (acc + curr), 0).toFixed(2);
+      console.log(convertedSum);
+      return Number(convertedSum);
     }
-    if (expenses.length === 0) {
-      this.setState({ totalExpenses: 0 });
-    }
+    return 0;
   }
 
   buildExpenseObj = async () => {
@@ -49,8 +48,8 @@ class Wallet extends React.Component {
         exchangeRates,
       };
       dispatch(addExpense(expenseObj));
+      this.setState({ value: '', description: '' });
     });
-    this.sum();
   }
 
   handleChange = ({ target }) => {
@@ -68,7 +67,6 @@ class Wallet extends React.Component {
       currency,
       method,
       tag,
-      totalExpenses,
     } = this.state;
     return (
       <>
@@ -79,7 +77,7 @@ class Wallet extends React.Component {
           <span>Câmbio atual:</span>
           <span data-testid="header-currency-field">BRL</span>
           <span>Total de despesas:</span>
-          <span data-testid="total-field">{totalExpenses}</span>
+          <span data-testid="total-field">{this.totalSum()}</span>
         </header>
         <main>
           <Form
