@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { deleteExpense } from '../actions';
+import { deleteExpense, selectExpenseToEdit, updateTotalExpense } from '../actions';
 
 class ExpensesTable extends React.Component {
   convertValue = (object, value, currency, exchangeRates) => (
@@ -9,14 +9,20 @@ class ExpensesTable extends React.Component {
   )
 
   deleteExpense = async ({ target }) => {
+    const { dispatch, totalSum } = this.props;
+    const id = Number(target.id);
+    await dispatch(deleteExpense(id));
+    dispatch(updateTotalExpense(totalSum()));
+  }
+
+  selectExpenseToEdit = ({ target }) => {
     const { dispatch } = this.props;
     const id = Number(target.id);
-    console.log(id);
-    await dispatch(deleteExpense(id));
+    dispatch(selectExpenseToEdit(id));
   }
 
   render() {
-    const { expensesList } = this.props;
+    const { expenses } = this.props;
     return (
       <table>
         <thead>
@@ -33,7 +39,7 @@ class ExpensesTable extends React.Component {
           </tr>
         </thead>
         <tbody>
-          {expensesList.map((expense) => (
+          {expenses.map((expense) => (
             <tr key={ expense.id }>
               <td>{expense.description}</td>
               <td>{expense.tag}</td>
@@ -60,20 +66,20 @@ class ExpensesTable extends React.Component {
               <td>
                 <button
                   type="button"
+                  onClick={ (event) => this.selectExpenseToEdit(event) }
+                  id={ expense.id }
+                  data-testid="edit-btn"
+                >
+                  Editar
+                </button>
+                <button
+                  type="button"
                   onClick={ (event) => this.deleteExpense(event) }
                   id={ expense.id }
                   data-testid="delete-btn"
                 >
                   Excluir despesa
                 </button>
-                {/* <button
-                  type="button"
-                  onClick={ () => {} }
-                  id={ expense.id }
-                  data-testid="edit-btn"
-                >
-                  Editar despesa
-                </button> */}
               </td>
             </tr>
           ))}
@@ -84,11 +90,12 @@ class ExpensesTable extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  expensesList: state.wallet.expenses,
+  expenses: state.wallet.expenses,
+  editor: state.wallet.editor,
 });
 
 ExpensesTable.propTypes = {
-  expensesList: PropTypes.array,
+  expenses: PropTypes.array,
 }.isRequired;
 
 export default connect(mapStateToProps)(ExpensesTable);

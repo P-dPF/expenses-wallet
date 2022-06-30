@@ -17,6 +17,7 @@ class Form extends React.Component {
       currencies,
       paymentMethods,
       categories,
+      btnLabel,
     } = this.props;
     return (
       <form>
@@ -61,7 +62,7 @@ class Form extends React.Component {
           options={ categories }
         />
         <Button
-          label="Adicionar despesa"
+          label={ btnLabel }
           onClick={ onClick }
         />
       </form>);
