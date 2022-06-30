@@ -29,16 +29,11 @@ class Wallet extends React.Component {
 
   totalSum = () => {
     const { expenses } = this.props;
-    if (expenses.length > 0) {
-      const convertedValues = expenses.map((expense) => Number(expense.value)
+    const convertedValues = expenses.map((expense) => Number(expense.value)
         * Number(expense.exchangeRates[expense.currency].ask));
-      const convertedSum = Number(convertedValues
-        .reduce((acc, curr) => (acc + curr), 0).toFixed(2));
-      return convertedSum;
-    }
-    if (expenses.length === 0) {
-      return 0;
-    }
+    const convertedSum = Number(convertedValues
+      .reduce((acc, curr) => (acc + curr), 0).toFixed(2));
+    return convertedSum;
   }
 
   buildExpenseObj = async () => {
@@ -95,7 +90,7 @@ class Wallet extends React.Component {
   }
 
   render() {
-    const { email, currencies, editor, total, expenses } = this.props;
+    const { email, currencies, editor, total } = this.props;
     const paymentMethods = ['Dinheiro', 'Cartão de crédito', 'Cartão de débito'];
     const categories = ['Alimentação', 'Lazer', 'Trabalho', 'Transporte', 'Saúde'];
     const {
@@ -144,7 +139,7 @@ class Wallet extends React.Component {
           <span>Câmbio atual:</span>
           <span data-testid="header-currency-field">BRL</span>
           <span>Total de despesas:</span>
-          <span data-testid="total-field">{expenses.length ? total : 0}</span>
+          <span data-testid="total-field">{total}</span>
         </header>
         <main>
           {editor ? editForm : addForm}
