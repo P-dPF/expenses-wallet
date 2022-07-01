@@ -1,19 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { deleteExpense, selectExpenseToEdit, updateTotalExpense } from '../actions';
+import {
+  /* deleteExpense, */ selectExpenseToEdit/* , updateTotalExpense */ } from '../actions';
 
 class ExpensesTable extends React.Component {
   convertValue = (object, value, currency, exchangeRates) => (
     object[value] * object[exchangeRates][object[currency]].ask
   )
 
-  deleteExpense = async ({ target }) => {
-    const { dispatch, totalSum } = this.props;
-    const id = Number(target.id);
-    await dispatch(deleteExpense(id));
-    dispatch(updateTotalExpense(totalSum()));
-  }
+  // deleteExpense = async ({ target }) => {
+  //   const { dispatch, totalSum } = this.props;
+  //   const id = Number(target.id);
+  //   await dispatch(deleteExpense(id));
+  //   dispatch(updateTotalExpense(totalSum()));
+  // }
 
   selectExpenseToEdit = ({ target }) => {
     const { dispatch } = this.props;
@@ -22,7 +23,7 @@ class ExpensesTable extends React.Component {
   }
 
   render() {
-    const { expenses } = this.props;
+    const { expenses, deleteExpense } = this.props;
     return (
       <table>
         <thead>
@@ -55,7 +56,6 @@ class ExpensesTable extends React.Component {
                 {
                   Number(expense.exchangeRates[expense.currency].ask).toFixed(2)
                 }
-
               </td>
               <td>
                 {
@@ -74,7 +74,7 @@ class ExpensesTable extends React.Component {
                 </button>
                 <button
                   type="button"
-                  onClick={ (event) => this.deleteExpense(event) }
+                  onClick={ (event) => deleteExpense(event) }
                   id={ expense.id }
                   data-testid="delete-btn"
                 >

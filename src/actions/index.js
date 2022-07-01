@@ -50,8 +50,8 @@ export const editExpense = ({
   method,
   tag,
   description,
-  exchangeRates,
-  expenseToEdit,
+  // exchangeRates,
+  // expenseToEdit,
 }) => ({
   type: EDIT_EXPENSE,
   payload: {
@@ -60,8 +60,8 @@ export const editExpense = ({
     method,
     tag,
     description,
-    exchangeRates,
-    expenseToEdit,
+    // exchangeRates,
+    // expenseToEdit,
   },
 });
 

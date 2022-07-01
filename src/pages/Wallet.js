@@ -6,7 +6,8 @@ import {
   addExpense,
   fetchExchangeRates,
   editExpense,
-  updateTotalExpense,
+  // updateTotalExpense,
+  deleteExpense,
 } from '../actions';
 import ExpensesTable from '../components/ExpensesTable';
 import Form from '../components/Form';
@@ -18,6 +19,7 @@ const INITIAL_STATE = {
   method: 'Dinheiro',
   tag: 'Alimentação',
   exchangeRates: {},
+  totalExpense: 0,
 };
 class Wallet extends React.Component {
   state = INITIAL_STATE;
@@ -28,11 +30,12 @@ class Wallet extends React.Component {
   }
 
   totalSum = () => {
-    const { expenses } = this.props;
+    const { expenses = [] } = this.props;
     const convertedValues = expenses.map((expense) => Number(expense.value)
         * Number(expense.exchangeRates[expense.currency].ask));
     const convertedSum = Number(convertedValues
       .reduce((acc, curr) => (acc + curr), 0).toFixed(2));
+    // this.setState({ totalExpense: convertedSum });
     return convertedSum;
   }
 
@@ -58,39 +61,54 @@ class Wallet extends React.Component {
     this.setState({ [name]: value });
   }
 
-  editExpense = async () => {
+  reviewExpense = async () => {
     const { dispatch } = this.props;
-    const APIresponse = await fetchExchangeRates()();
-    this.setState({ exchangeRates: APIresponse }, () => {
-      const { value, description, currency, method, tag, exchangeRates } = this.state;
-      const newExpenseObj = {
-        value,
-        description,
-        currency,
-        method,
-        tag,
-        exchangeRates,
-      };
-      dispatch(editExpense(newExpenseObj));
-    });
+    // const APIresponse = await fetchExchangeRates()();
+    // this.setState(() => {
+    const { value, description, currency, method, tag } = this.state;
+    const newExpenseObj = {
+      value,
+      description,
+      currency,
+      method,
+      tag,
+      // exchangeRates,
+    };
+    dispatch(editExpense(newExpenseObj));
+    // });
   }
 
   handleClick = async () => {
-    const { dispatch } = this.props;
+    // const { dispatch } = this.props;
     await this.buildExpenseObj();
-    await dispatch(updateTotalExpense(this.totalSum()));
-    this.setState({ value: '', description: '' });
+    // await dispatch(updateTotalExpense(this.totalSum()));
+    this.totalSum();
+    const { totalExpense, ...rest } = INITIAL_STATE;
+    this.setState({ ...rest });
   }
 
   handleEditClick = async () => {
+    // const { dispatch } = this.props;
+    await this.reviewExpense();
+    // await dispatch(updateTotalExpense(this.totalSum()));
+    this.totalSum();
+    const { totalExpense, ...rest } = INITIAL_STATE;
+    this.setState({ ...rest });
+  }
+
+  deleteExpense = async ({ target }) => {
     const { dispatch } = this.props;
-    await this.editExpense();
-    await dispatch(updateTotalExpense(this.totalSum()));
-    this.setState({ value: '', description: '' });
+    const id = Number(target.id);
+    await dispatch(deleteExpense(id));
+    // dispatch(updateTotalExpense(this.totalSum()));
+    this.totalSum();
+    const { totalExpense, ...rest } = INITIAL_STATE;
+    this.setState({ ...rest });
   }
 
   render() {
-    const { email, currencies, editor, total } = this.props;
+    // const { totalExpense } = this.state;
+    const { email, currencies, editor } = this.props;
     const paymentMethods = ['Dinheiro', 'Cartão de crédito', 'Cartão de débito'];
     const categories = ['Alimentação', 'Lazer', 'Trabalho', 'Transporte', 'Saúde'];
     const {
@@ -139,12 +157,15 @@ class Wallet extends React.Component {
           <span>Câmbio atual:</span>
           <span data-testid="header-currency-field">BRL</span>
           <span>Total de despesas:</span>
-          <span data-testid="total-field">{total}</span>
+          <span data-testid="total-field">{this.totalSum()}</span>
         </header>
         <main>
           {editor ? editForm : addForm}
           <div>
-            <ExpensesTable totalSum={ this.totalSum } />
+            <ExpensesTable
+              totalSum={ this.totalSum }
+              deleteExpense={ this.deleteExpense }
+            />
           </div>
         </main>
       </>

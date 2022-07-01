@@ -45,10 +45,16 @@ const walletReducer = (state = INITIAL_STATE, action) => {
   }
   case EDIT_EXPENSE: {
     const remainingExpenses = state.expenses
-      .filter((expense) => expense.id !== state.idToEdit);
+      .map((expense) => {
+        if (expense.id === state.idToEdit) {
+          return {
+            ...action.payload, exchangeRates: expense.exchangeRates, id: state.idToEdit };
+        }
+        return expense;
+      });
     return {
       ...state,
-      expenses: [...remainingExpenses, { id: state.expenses.length, ...action.payload }],
+      expenses: remainingExpenses,
       editor: false,
     };
   }
