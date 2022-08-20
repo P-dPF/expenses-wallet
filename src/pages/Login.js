@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getLoginInfo } from '../actions';
+import Input from '../components/Input';
+import Button from '../components/Button';
 
 class Login extends React.Component {
   state = {
@@ -34,32 +36,39 @@ class Login extends React.Component {
   }
 
   render() {
-    const { disabled } = this.state;
+    const { email, password, disabled } = this.state;
     return (
       <>
         <div>Login</div>
-        <form>
-          <input
-            type="email"
-            name="email"
-            data-testid="email-input"
-            onChange={ this.handleChange }
-          />
-          <input
-            type="password"
-            name="password"
-            data-testid="password-input"
-            minLength={ 6 }
-            onChange={ this.handleChange }
-          />
-          <button
-            type="button"
-            disabled={ disabled }
-            onClick={ () => this.handleClick() }
-          >
-            Entrar
-          </button>
-        </form>
+        <div>
+          <form>
+            <div>
+              <Input
+                label="Email"
+                type="email"
+                name="email"
+                value={ email }
+                onChange={ this.handleChange }
+                id="email-input"
+              />
+            </div>
+            <div>
+              <Input
+                label="Password"
+                type="password"
+                name="password"
+                value={ password }
+                onChange={ this.handleChange }
+                id="password-input"
+              />
+            </div>
+            <Button
+              label="Entrar"
+              disabled={ disabled }
+              onClick={ this.handleClick }
+            />
+          </form>
+        </div>
       </>
     );
   }
