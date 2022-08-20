@@ -1,20 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {
-  /* deleteExpense, */ selectExpenseToEdit/* , updateTotalExpense */ } from '../actions';
+import { selectExpenseToEdit } from '../actions';
 
 class ExpensesTable extends React.Component {
   convertValue = (object, value, currency, exchangeRates) => (
     object[value] * object[exchangeRates][object[currency]].ask
   )
-
-  // deleteExpense = async ({ target }) => {
-  //   const { dispatch, totalSum } = this.props;
-  //   const id = Number(target.id);
-  //   await dispatch(deleteExpense(id));
-  //   dispatch(updateTotalExpense(totalSum()));
-  // }
 
   selectExpenseToEdit = ({ target }) => {
     const { dispatch } = this.props;

@@ -6,7 +6,6 @@ import {
   addExpense,
   fetchExchangeRates,
   editExpense,
-  // updateTotalExpense,
   deleteExpense,
 } from '../actions';
 import ExpensesTable from '../components/ExpensesTable';
@@ -35,7 +34,6 @@ class Wallet extends React.Component {
         * Number(expense.exchangeRates[expense.currency].ask));
     const convertedSum = Number(convertedValues
       .reduce((acc, curr) => (acc + curr), 0).toFixed(2));
-    // this.setState({ totalExpense: convertedSum });
     return convertedSum;
   }
 
@@ -63,8 +61,6 @@ class Wallet extends React.Component {
 
   reviewExpense = async () => {
     const { dispatch } = this.props;
-    // const APIresponse = await fetchExchangeRates()();
-    // this.setState(() => {
     const { value, description, currency, method, tag } = this.state;
     const newExpenseObj = {
       value,
@@ -72,25 +68,19 @@ class Wallet extends React.Component {
       currency,
       method,
       tag,
-      // exchangeRates,
     };
     dispatch(editExpense(newExpenseObj));
-    // });
   }
 
   handleClick = async () => {
-    // const { dispatch } = this.props;
     await this.buildExpenseObj();
-    // await dispatch(updateTotalExpense(this.totalSum()));
     this.totalSum();
     const { totalExpense, ...rest } = INITIAL_STATE;
     this.setState({ ...rest });
   }
 
   handleEditClick = async () => {
-    // const { dispatch } = this.props;
     await this.reviewExpense();
-    // await dispatch(updateTotalExpense(this.totalSum()));
     this.totalSum();
     const { totalExpense, ...rest } = INITIAL_STATE;
     this.setState({ ...rest });
@@ -100,14 +90,12 @@ class Wallet extends React.Component {
     const { dispatch } = this.props;
     const id = Number(target.id);
     await dispatch(deleteExpense(id));
-    // dispatch(updateTotalExpense(this.totalSum()));
     this.totalSum();
     const { totalExpense, ...rest } = INITIAL_STATE;
     this.setState({ ...rest });
   }
 
   render() {
-    // const { totalExpense } = this.state;
     const { email, currencies, editor } = this.props;
     const paymentMethods = ['Dinheiro', 'Cartão de crédito', 'Cartão de débito'];
     const categories = ['Alimentação', 'Lazer', 'Trabalho', 'Transporte', 'Saúde'];
