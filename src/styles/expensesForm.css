@@ -1,0 +1,49 @@
+.add-expenses-form {
+  background-color: blue;
+  display: flex;
+  flex-direction: column;
+  height: 150px;
+  justify-content: space-between;
+}
+
+.add-expenses-form input {
+  border: none;
+  border-radius: 5px;
+  font-size: 100%;
+  font-weight: 550;
+  height: 25px;
+  margin: none;
+  padding: 0 5px;
+  width: 25%;
+}
+
+.add-expenses-form button {
+  border: none;
+  border-radius: 7px;
+  font-size: 100%;
+  font-weight: 550;
+  height: 30px;
+  margin: none;
+  padding: 0;
+  width: 200px;
+}
+
+.add-expenses-form div {
+  background-color: brown;
+  display: flex;
+  justify-content: space-around;
+  margin: 10px;
+}
+
+.expenses-header {
+  background-color: red;
+  display: flex;
+  gap: 15px;
+  height: 25px;
+  justify-content: space-around;
+}
+
+.expense-page {
+  background-color: orange;
+  width: 80%;
+}

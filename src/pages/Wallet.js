@@ -119,6 +119,7 @@ class Wallet extends React.Component {
         categories={ categories }
         onClick={ this.handleClick }
         btnLabel="Adicionar despesa"
+        className="add-expenses-form"
       />
     );
     const editForm = (
@@ -137,26 +138,30 @@ class Wallet extends React.Component {
       />
     );
     return (
-      <>
+      <div className="expense-page">
         <div>TrybeWallet</div>
-        <header>
-          <span>TrybeWallet de:</span>
-          <span data-testid="email-field">{email}</span>
-          <span>Câmbio atual:</span>
-          <span data-testid="header-currency-field">BRL</span>
-          <span>Total de despesas:</span>
-          <span data-testid="total-field">{this.totalSum()}</span>
+        <header className="expenses-header">
+          <span>
+            {'TrybeWallet de: '}
+            <span data-testid="email-field">{email}</span>
+          </span>
+          <span>
+            {'Câmbio atual: '}
+            <span data-testid="header-currency-field">BRL</span>
+          </span>
+          <span>
+            {'Total de despesas: '}
+            <span data-testid="total-field">{this.totalSum()}</span>
+          </span>
         </header>
         <main>
           {editor ? editForm : addForm}
-          <div>
-            <ExpensesTable
-              totalSum={ this.totalSum }
-              deleteExpense={ this.deleteExpense }
-            />
-          </div>
+          <ExpensesTable
+            totalSum={ this.totalSum }
+            deleteExpense={ this.deleteExpense }
+          />
         </main>
-      </>
+      </div>
     );
   }
 }

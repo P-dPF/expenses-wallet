@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { getLoginInfo } from '../actions';
 import Input from '../components/Input';
 import Button from '../components/Button';
+import '../styles/Login.css';
+import '../styles/loginInput.css';
 
 class Login extends React.Component {
   state = {
@@ -38,38 +40,38 @@ class Login extends React.Component {
   render() {
     const { email, password, disabled } = this.state;
     return (
-      <>
-        <div>Login</div>
-        <div>
-          <form>
-            <div>
-              <Input
-                label="Email"
-                type="email"
-                name="email"
-                value={ email }
-                onChange={ this.handleChange }
-                id="email-input"
-              />
-            </div>
-            <div>
-              <Input
-                label="Password"
-                type="password"
-                name="password"
-                value={ password }
-                onChange={ this.handleChange }
-                id="password-input"
-              />
-            </div>
-            <Button
-              label="Entrar"
-              disabled={ disabled }
-              onClick={ this.handleClick }
-            />
-          </form>
+      <div className="login-box">
+        <div className="title">
+          Trybe
+          <strong>Wallet</strong>
         </div>
-      </>
+        <form className="form">
+          <Input
+            placeholder="Email"
+            type="email"
+            name="email"
+            value={ email }
+            onChange={ this.handleChange }
+            id="email-input"
+            className="login-input"
+          />
+          <Input
+            placeholder="Password"
+            type="password"
+            name="password"
+            value={ password }
+            onChange={ this.handleChange }
+            id="password-input"
+            className="login-input"
+          />
+          <Button
+            label="Entrar"
+            disabled={ disabled }
+            onClick={ this.handleClick }
+            className="button"
+          />
+        </form>
+      </div>
     );
   }
 }
