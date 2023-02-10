@@ -139,7 +139,6 @@ class Wallet extends React.Component {
     );
     return (
       <div className="expense-page">
-        <div>TrybeWallet</div>
         <header className="expenses-header">
           <span>
             {'TrybeWallet de: '}

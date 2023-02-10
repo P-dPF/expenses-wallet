@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { selectExpenseToEdit } from '../actions';
+import '../styles/expensesTable.css';
 
 class ExpensesTable extends React.Component {
   convertValue = (object, value, currency, exchangeRates) => (
@@ -17,7 +18,7 @@ class ExpensesTable extends React.Component {
   render() {
     const { expenses, deleteExpense } = this.props;
     return (
-      <table>
+      <table className="expenses-table">
         <thead>
           <tr>
             <th>Descrição</th>

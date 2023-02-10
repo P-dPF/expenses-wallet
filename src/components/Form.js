@@ -43,7 +43,7 @@ class Form extends React.Component {
         </div>
         <div>
           <Select
-            label="Moeda"
+            label="Moeda: "
             name="currency"
             id="currency-input"
             onChange={ onChange }

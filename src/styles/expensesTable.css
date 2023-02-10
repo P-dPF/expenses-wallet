@@ -1,0 +1,25 @@
+.expenses-table {
+  width: 100%
+}
+
+.expenses-table th {
+  background-color: rgba(0, 0, 0, 0.322);
+  text-align: center;
+  width: 10%;
+}
+
+.expenses-table td {
+  text-align: center;
+  width: 10%;
+}
+
+.expenses-table td button {
+  border: none;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 550;
+  height: 20px;
+  margin: 2px;
+  padding: 0;
+  width: 90%;
+}
