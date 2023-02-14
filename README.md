@@ -1,3 +1,5 @@
+![Demonstration Gif](/public/expenses-demo.gif "Demonstration Gif")
+
 ## DESCRIPTION
 
 The Expenses Wallet is a Frontend Single Page Application developed in ReactJS and Redux in which the user can insert expenses with the relevant attributes and the application will automatically convert the currencies display it.
