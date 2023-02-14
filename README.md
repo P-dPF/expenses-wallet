@@ -2,7 +2,7 @@
 
 ## DESCRIPTION
 
-The Expenses Wallet is a Frontend Single Page Application developed in ReactJS and Redux in which the user can insert expenses with the relevant attributes and the application will automatically convert the currencies display it.
+The Expenses Wallet is a Frontend Single Page Application developed in ReactJS and Redux in which the user can insert expenses with the relevant attributes and the application will automatically convert the currencies display it. The application will request an external API to receive the data for each currency.
 
 ## STACKS
 
